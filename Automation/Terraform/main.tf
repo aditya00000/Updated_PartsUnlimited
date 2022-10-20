@@ -60,7 +60,6 @@ data "azurerm_key_vault" "kv-01" {
 
 data "azurerm_key_vault_secret" "kv-01-sec-01" {
   name         = "db-pwd"
-  content_type = "string"
   key_vault_id = data.azurerm_key_vault.kv-01.id
 }
 
@@ -75,7 +74,7 @@ resource "azurerm_sql_server" "sql-server-01" {
   location            = var.rg_01_location
   version                      = "12.0"
   administrator_login          = "vineel"
-  administrator_login_password = data.azurerm_key_vault_secret.kv-01-sec-01
+  administrator_login_password = data.azurerm_key_vault_secret.kv-01-sec-01.value
 
  tags = {
     automation  = "terraform"
@@ -113,6 +112,6 @@ resource "azurerm_windows_web_app" "app-01" {
   connection_string {
     name  = "from-kv"
     type  = "SQLServer"
-    value = data.azurerm_key_vault_secret.kv-01-sec-02
+    value = data.azurerm_key_vault_secret.kv-01-sec-02.value
   }
 }
