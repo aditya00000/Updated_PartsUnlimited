@@ -60,6 +60,7 @@ data "azurerm_key_vault" "kv-01" {
 
 data "azurerm_key_vault_secret" "kv-01-sec-01" {
   name         = "db-pwd"
+  content_type = "string"
   key_vault_id = data.azurerm_key_vault.kv-01.id
 }
 
