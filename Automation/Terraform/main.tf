@@ -53,6 +53,46 @@ resource "azurerm_virtual_network" "vnet-01" {
   }
 }
 
+data "azurerm_key_vault" "kv-01" {
+  name                = "kv-azb23-dev"
+  resource_group_name = "SA-TF-BACKENDS"
+}
+
+data "azurerm_key_vault_secret" "kv-01-sec-01" {
+  name         = "db-pwd"
+  key_vault_id = data.azurerm_key_vault.kv-01.id
+}
+
+data "azurerm_key_vault_secret" "kv-01-sec-02" {
+  name         = "azb23-db-01"
+  key_vault_id = data.azurerm_key_vault.kv-01.id
+}
+
+resource "azurerm_sql_server" "sql-server-01" {
+  name                         = "azb23-sql-server-01"
+  resource_group_name = var.rg_01_name
+  location            = var.rg_01_location
+  version                      = "12.0"
+  administrator_login          = "vineel"
+  administrator_login_password = data.azurerm_key_vault_secret.kv-01-sec-01
+
+ tags = {
+    automation  = "terraform"
+    environment = var.tag_env_name
+  }
+}
+
+resource "azurerm_sql_database" "sql-db-01" {
+  name                = "azb23-db-01"
+  resource_group_name = var.rg_01_name
+  location            = var.rg_01_location
+  server_name         = azurerm_sql_server.sql-server-01.name
+  tags = {
+    automation  = "terraform"
+    environment = var.tag_env_name
+  }
+}
+
 resource "azurerm_service_plan" "asp-01" {
   name                = "asp-webapps-01"
   resource_group_name = var.rg_01_name
@@ -70,33 +110,8 @@ resource "azurerm_windows_web_app" "app-01" {
   site_config {}
   
   connection_string {
-    name  = "Parts-database"
+    name  = "from-kv"
     type  = "SQLServer"
-    value = "Server=tcp:${azurerm_sql_database.sql-db-01.name}.database.windows.net,1433;Initial Catalog=${azurerm_sql_server.sql-server-01.name};Persist Security Info=False;User ID=${azurerm_sql_server.sql-server-01.administrator_login};Password=${azurerm_sql_server.sql-server-01.administrator_login_password};MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-  }
-}
-
-resource "azurerm_sql_server" "sql-server-01" {
-  name                         = "azb23-sql-server-01"
-  resource_group_name = var.rg_01_name
-  location            = var.rg_01_location
-  version                      = "12.0"
-  administrator_login          = "vineel"
-  administrator_login_password = "4-v3ry-53cr37-p455w0rd"
-
- tags = {
-    automation  = "terraform"
-    environment = var.tag_env_name
-  }
-}
-
-resource "azurerm_sql_database" "sql-db-01" {
-  name                = "azb23-db-01"
-  resource_group_name = var.rg_01_name
-  location            = var.rg_01_location
-  server_name         = azurerm_sql_server.sql-server-01.name
-  tags = {
-    automation  = "terraform"
-    environment = var.tag_env_name
+    value = data.azurerm_key_vault_secret.kv-01-sec-02
   }
 }
