@@ -75,7 +75,9 @@ resource "azurerm_sql_server" "sql-server-01" {
   version                      = "12.0"
   administrator_login          = "vineel"
   administrator_login_password = data.azurerm_key_vault_secret.kv-01-sec-01.value
-
+  depends_on = [
+    module.create-rg-01
+  ]
  tags = {
     automation  = "terraform"
     environment = var.tag_env_name
@@ -87,6 +89,10 @@ resource "azurerm_sql_database" "sql-db-01" {
   resource_group_name = var.rg_01_name
   location            = var.rg_01_location
   server_name         = azurerm_sql_server.sql-server-01.name
+  depends_on = [
+    module.create-rg-01,
+    resource.azurerm_sql_server.sql-server-01
+  ]
   tags = {
     automation  = "terraform"
     environment = var.tag_env_name
@@ -99,6 +105,10 @@ resource "azurerm_service_plan" "asp-01" {
   location            = var.rg_01_location
   sku_name            = "P1v2"
   os_type             = "Windows"
+  depends_on = [
+    module.create-rg-01,
+    resource.azurerm_sql_database.sql-db-01
+  ]
 }
 
 resource "azurerm_windows_web_app" "app-01" {
@@ -106,6 +116,10 @@ resource "azurerm_windows_web_app" "app-01" {
   resource_group_name = var.rg_01_name
   location            = var.rg_01_location
   service_plan_id     = azurerm_service_plan.asp-01.id
+  depends_on = [
+    module.create-rg-01,
+    resource.azurerm_service_plan.asp-01
+  ]
 
   site_config {}
   
