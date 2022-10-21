@@ -62,3 +62,9 @@ stages:
               command: 'apply'
               workingDirectory: '$(System.DefaultWorkingDirectory)\Automation\Terraform'
               environmentServiceNameAzureRM: 'Pay-As-You-Go(939d0063-f302-41c3-a37b-d6a44a4eb692)'
+  - stage: 
+    displayName: Release_To_Dev
+    jobs:
+      - job:
+        displayName: Terrafrom
+        steps:
