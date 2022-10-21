@@ -68,3 +68,10 @@ stages:
       - job:
         displayName: Terrafrom
         steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Pay-As-You-Go(939d0063-f302-41c3-a37b-d6a44a4eb692)'
+              appType: 'webApp'
+              WebAppName: 'azb23-win-app-01'
+              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
