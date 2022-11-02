@@ -1,5 +1,5 @@
 pool:
-  name: MyLocalAgentPool
+  name: Aditya-Pool01
 
 variables:
   BuildConfiguration: "release"
