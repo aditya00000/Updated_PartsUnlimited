@@ -43,7 +43,7 @@ stages:
               provider: 'azurerm'
               command: 'init'
               workingDirectory: '$(System.DefaultWorkingDirectory)\Automation\Terraform'
-              backendServiceArm: 'Pay-As-You-Go(939d0063-f302-41c3-a37b-d6a44a4eb692)'
+              backendServiceArm: 'Free Trial(a16bad63-099a-4861-9fa7-ffc1c76d7e00)'
               backendAzureRmResourceGroupName: 'SA-TF-BACKENDS'
               backendAzureRmStorageAccountName: 'azb23tfremotebackends'
               backendAzureRmContainerName: 'tfremotebackends'
@@ -54,14 +54,14 @@ stages:
               provider: 'azurerm'
               command: 'plan'
               workingDirectory: '$(System.DefaultWorkingDirectory)\Automation\Terraform'
-              environmentServiceNameAzureRM: 'Pay-As-You-Go(939d0063-f302-41c3-a37b-d6a44a4eb692)'
+              environmentServiceNameAzureRM: 'Free Trial(a16bad63-099a-4861-9fa7-ffc1c76d7e00)'
           - task: TerraformTaskV3@3
             displayName: Apply
             inputs:
               provider: 'azurerm'
               command: 'apply'
               workingDirectory: '$(System.DefaultWorkingDirectory)\Automation\Terraform'
-              environmentServiceNameAzureRM: 'Pay-As-You-Go(939d0063-f302-41c3-a37b-d6a44a4eb692)'
+              environmentServiceNameAzureRM: 'Free Trial(a16bad63-099a-4861-9fa7-ffc1c76d7e00)'
   - stage: 
     displayName: Release_To_Dev
     jobs:
@@ -71,7 +71,7 @@ stages:
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
-              azureSubscription: 'Pay-As-You-Go(939d0063-f302-41c3-a37b-d6a44a4eb692)'
+              azureSubscription: 'Free Trial(a16bad63-099a-4861-9fa7-ffc1c76d7e00)'
               appType: 'webApp'
               WebAppName: 'azb23-win-app-01'
               packageForLinux: '$(System.DefaultWorkingDirectory)/_sso-vineel.PartsUnlimitedE2E/drop/PartsUnlimitedWebsite.zip'
