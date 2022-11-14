@@ -54,7 +54,7 @@ resource "azurerm_virtual_network" "vnet-01" {
 }
 
 data "azurerm_key_vault" "kv-01" {
-  name                = "kv-azb23-dev"
+  name                = "kv-azb23-dev01"
   resource_group_name = "SA-TF-BACKENDS"
 }
 
