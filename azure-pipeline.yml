@@ -1,5 +1,5 @@
 pool:
-  name: Aditya-Pool01
+  name: AdityaPool01
 
 variables:
   BuildConfiguration: "release"
