@@ -45,7 +45,7 @@ stages:
               workingDirectory: '$(System.DefaultWorkingDirectory)\Automation\Terraform'
               backendServiceArm: 'Free Trial(a16bad63-099a-4861-9fa7-ffc1c76d7e00)'
               backendAzureRmResourceGroupName: 'SA-TF-BACKENDS'
-              backendAzureRmStorageAccountName: 'azb23tfremotebackends'
+              backendAzureRmStorageAccountName: 'azb23tfremotebackends001'
               backendAzureRmContainerName: 'tfremotebackends'
               backendAzureRmKey: 'dev.terraform.tfstate'
           - task: TerraformTaskV3@3
