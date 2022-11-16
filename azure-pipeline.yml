@@ -62,16 +62,4 @@ stages:
               command: 'apply'
               workingDirectory: '$(System.DefaultWorkingDirectory)\Automation\Terraform'
               environmentServiceNameAzureRM: 'Free Trial(a16bad63-099a-4861-9fa7-ffc1c76d7e00)'
-  - stage: 
-    displayName: Release_To_Dev
-    jobs:
-      - job:
-        displayName: Release
-        steps:
-          - task: AzureRmWebAppDeployment@4
-            inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'Free Trial(a16bad63-099a-4861-9fa7-ffc1c76d7e00)'
-              appType: 'webApp'
-              WebAppName: 'azb23-win-app-01'
-              packageForLinux: '$(System.DefaultWorkingDirectory)/_aditya00000.Updated_PartsUnlimited/drop/PartsUnlimitedWebsite.zip'
+ 
