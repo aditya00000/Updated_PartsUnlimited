@@ -73,7 +73,7 @@ resource "azurerm_sql_server" "sql-server-01" {
   resource_group_name = var.rg_01_name
   location            = var.rg_01_location
   version                      = "12.0"
-  administrator_login          = "vineel"
+  administrator_login          = data.azurerm_key_vault_secret.kv-01-sec-02.value
   administrator_login_password = data.azurerm_key_vault_secret.kv-01-sec-01.value
   depends_on = [
     module.create-rg-01
