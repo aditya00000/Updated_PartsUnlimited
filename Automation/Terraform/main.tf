@@ -9,7 +9,7 @@ terraform {
     resource_group_name  = "SA-TF-BACKENDS"
     storage_account_name = "azb23tfremotebackends"
     container_name       = "tfremotebackends"
-    key                  = "dev.terraform.tfstate"
+    key                  = "dev1.terraform.tfstate"
   }
 }
 
