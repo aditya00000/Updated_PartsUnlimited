@@ -103,7 +103,7 @@ resource "azurerm_service_plan" "asp-01" {
   name                = "asp-webapps-01"
   resource_group_name = var.rg_01_name
   location            = var.rg_01_location
-  sku_name            = "P1v2"
+  sku_name            = "F1"
   os_type             = "Windows"
   depends_on = [
     module.create-rg-01,
