@@ -121,7 +121,9 @@ resource "azurerm_windows_web_app" "app-01" {
     resource.azurerm_service_plan.asp-01
   ]
 
-  site_config {}
+  site_config {
+    always_on   = false
+  }
   
   connection_string {
     name  = "from-kv"
